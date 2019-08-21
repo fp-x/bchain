@@ -13,23 +13,19 @@
 		"url": "git+https://github.com/BitbossIO/bchain.git"
 	},
 	"devDependencies": {
-		"@types/bluebird": "^3.5.11",
-		"@types/core-js": "^0.9.43",
-		"@types/node": "^8.0.28",
-		"@types/ramda": "0.24.11",
-		"gulp": "^3.9.1",
-		"gulp-debug": "^2.1.2",
-		"gulp-inject": "^1.5.0",
-		"gulp-rimraf": "^0.1.1",
-		"gulp-sourcemaps": "^1.5.1",
-		"gulp-tslint": "^8.1.2",
-		"gulp-typescript": "^3.2.2",
-		"chai": "^4.1.2",
-		"chai-http": "^3.0.0",
-		"mocha": "^3.5.3",
-		"ts-node": "^3.3.0",
-		"tslint": "^5.7.0",
-		"typescript": "^2.5.2"
+		"@types/eventsource": "^1.1.0",
+		"@types/express": "^4.0.37",
+		"@types/mocha": "^5.2.6",
+		"@types/node": "^11.10.4",
+		"eventsource": "^1.0.7",
+		"gulp": "^4.0.0",
+		"gulp-sourcemaps": "^2.6.5",
+		"gulp-tslint": "^8.1.4",
+		"gulp-typescript": "^5.0.0",
+		"mocha": "^6.0.2",
+		"ts-node": "^8.0.2",
+		"tslint": "^5.13.0",
+		"typescript": "^3.3.3333"
 	},
 	"keywords": [
 		"bitcoin",
@@ -44,10 +40,10 @@
 	},
 	"homepage": "https://github.com/BitbossIO/bchain#readme",
 	"dependencies": {
-		"@akanass/rx-http-request": "^2.6.0",
+		"@akanass/rx-http-request": "^3.3.0",
 		"del": "^3.0.0",
 		"fs": "0.0.1-security",
-		"ramda": "^0.24.1",
-		"rxjs": "^5.4.3"
+		"ramda": "^0.26.1",
+		"rxjs": "^6.5.2"
 	}
 }

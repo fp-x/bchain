@@ -14,27 +14,25 @@ gulp.task('scripts', () => {
 	return tsResult.js.pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['scripts'], () => {
-	gulp.watch('src/**/*.ts', ['scripts']);
-});
+gulp.task('watch', gulp.series('scripts', () => {
+	gulp.watch('src/**/*.ts', gulp.series(['tslint', 'scripts']));
+}));
 
 gulp.task('assets', function() {
 	return gulp.src(JSON_FILES)
 		.pipe(gulp.dest('dist'));
 });
 gulp.task("tslint", () =>
-	gulp.src("source.ts")
+	gulp.src('src/**/*.ts')
+	// gulp.src("source.ts")
 	.pipe(tslint({
 		formatter: "verbose"
 	}))
 	.pipe(tslint.report())
 );
 gulp.task('compile-ts', function() {
-	var sourceTsFiles = [config.allTypeScript, //path to typescript files
-		config.libraryTypeScriptDefinitions
-	]; //reference to library .d.ts files
 
-	var tsResult = gulp.src(sourceTsFiles)
+	var tsResult = gulp.src('src/**/*.ts')
 		.pipe(sourcemaps.init())
 		.pipe(tsProject());
 
@@ -44,5 +42,5 @@ gulp.task('compile-ts', function() {
 		.pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['watch', 'assets', 'tslint', 'scripts']);
-gulp.task('default', ['tslint', 'scripts']);
+gulp.task('watch', gulp.series(['watch', 'assets', 'tslint', 'scripts']));
+gulp.task('default', gulp.series(['tslint', 'scripts']));
