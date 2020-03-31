@@ -128,11 +128,23 @@ export class BChain {
 		getChainTips: [],
 		getdifficulty: [],
 		getmempoolinfo: [],
-		getrawmempool: [{'verbose': 0}],
+		getRawMempool: [{'verbose': false}],
 		listblocks: ['block-set-identifier', {'verbose': 0}],
 		listupgrades: [{'upgrade-identifiers': '*'}],
 		verifychain: [{'checklevel': 3}, {'numblocks': 288}],
 
+		// new in SV
+		getBlockHeader: ['hash', { 'verbose': true}],
+		getChainTxStats: [{ 'nblocks': undefined}, { 'blockhash': undefined}],
+		getmempoolancestors: ['txid', { 'verbose': false}],
+		getmempooldescendants: ['txid', { 'verbose': false}],
+		getmempoolentry: ['txid'],
+		gettxout: ['txid', 'n', { 'include_mempool': true}],
+		gettxoutproof: [{'txid': []}, { 'blockhash': undefined}],
+		gettxoutsetinfo: [],
+		preciousblock: ['blockhash'],
+		pruneblockchain: [],
+		verifytxoutproof: ['proof'],
 
 		getRawTransaction: ['txid', {'verbose': 0}],
 		getTxOut: ['txid', 'vout', {'unconfirmed': false}],
@@ -256,12 +268,17 @@ export class BChain {
 	getBlockchainParams(): Observable<any> { return this.call('getblockchainparams', []); }
 	getBlockCount(): Observable<any> { return this.call('getblockcount', []); }
 	getBlockHash(height): Observable<any> { return this.call('getblockhash', [height]); }
+	getBlockHeader(hash, verbose = true): Observable<any> { return this.call('getblockheader', [hash, verbose]); }
 	getChainTips(): Observable<any> { return this.call('getchaintips', []); }
+	getChainTxStats(nblocks?, blockhash?): Observable<any> { return this.call('getchaintxstats', [nblocks, blockhash]); }
 	getconnectioncount(): Observable<any> { return this.call('getconnectioncount', []); }
 	getdifficulty(): Observable<any> { return this.call('getdifficulty', []); }
 	getgenerate(): Observable<any> { return this.call('getgenerate', []); }
 	gethashespersec(): Observable<any> { return this.call('gethashespersec', []); }
 	getInfo(): Observable<any> { return this.call('getinfo', []); }
+	getmempoolancestors(txid, verbose = false): Observable<any> { return this.call('getmempoolancestors', [txid, verbose]); }
+	getmempooldescendants(txid, verbose = false): Observable<any> { return this.call('getmempooldescendants', [txid, verbose]); }
+	getmempoolentry(txid): Observable<any> { return this.call('getmempoolentry', [txid]); }
 	getmempoolinfo(): Observable<any> { return this.call('getmempoolinfo', []); }
 	getMiningInfo(): Observable<any> { return this.call('getmininginfo', []); }
 	getMultiBalances(addresses = '*', assets = [], minconf = 1, includeWatchOnly = false, includeLocked = false): Observable<any> { return this.call('getmultibalances', [addresses, assets, minconf, includeWatchOnly, includeLocked]); }
@@ -269,13 +286,16 @@ export class BChain {
 	getNetworkInfo(): Observable<any> { return this.call('getnetworkinfo', []); }
 	getNewAddress(): Observable<any> { return this.call('getnewaddress', []); }
 	getPeerInfo(): Observable<any> { return this.call('getpeerinfo', []); }
-	getrawmempool(verbose = 0): Observable<any> { return this.call('getrawmempool', [verbose]); }
+	getRawMempool(verbose = false): Observable<any> { return this.call('getrawmempool', [verbose]); }
 	getRawTransaction(txid, verbose = 0): Observable<any> { return this.call('getrawtransaction', [txid, verbose]); }
 	getRuntimeParams(): Observable<any> { return this.call('getruntimeparams', []); }
 	getStreamItem(stream, txid, verbose = false): Observable<any> { return this.call('getstreamitem', [stream, txid, verbose]); }
 	getTotalBalances(minconf = 1, includeWatchOnly = false, includeLocked = false): Observable<any> { return this.call('gettotalbalances', [minconf, includeWatchOnly, includeLocked]); }
+	gettxout(txid, n, include_mempool = true): Observable<any> { return this.call('gettxout', [txid, n, include_mempool]); }
 	getTxOut(txid, vout, unconfirmed = false): Observable<any> { return this.call('gettxout', [txid, vout, unconfirmed]); }
 	getTxOutData(txid, vout): Observable<any> { return this.call('gettxoutdata', [txid, vout]); }
+	gettxoutproof(txid = [], blockhash?): Observable<any> { return this.call('gettxoutproof', [txid, blockhash]); }
+	gettxoutsetinfo(): Observable<any> { return this.call('gettxoutsetinfo', []); }
 	getWalletInfo(): Observable<any> { return this.call('getwalletinfo', []); }
 	getWalletTransaction(txid, includeWatchOnly = false, verbose = false): Observable<any> { return this.call('getwallettransaction', [txid, includeWatchOnly, verbose]); }
 	grant(addresses, permissions, native_amount = {}, start_block = {}, end_block = {}, comment = {}, comment_to = {}): Observable<any> { return this.call('grant', [addresses, permissions, native_amount, start_block, end_block, comment, comment_to]); }
@@ -311,8 +331,10 @@ export class BChain {
 	lockUnspent(unlock, outputs = []): Observable<any> { return this.call('lockunspent', [unlock, outputs]); }
 	pause(tasks): Observable<any> { return this.call('pause', [tasks]); }
 	ping(): Observable<any> { return this.call('ping', []); }
+	preciousblock(blockhash): Observable<any> { return this.call('preciousblock', [blockhash]); }
 	prepareLockUnspent(assets, lock = true): Observable<any> { return this.call('preparelockunspent', [assets, lock]); }
 	prepareLockUnspentFrom(from, assets, lock = true): Observable<any> { return this.call('preparelockunspentfrom', [from, assets, lock]); }
+	pruneblockchain(): Observable<any> { return this.call('pruneblockchain', []); }
 	publish(stream, key, data): Observable<any> { return this.call('publish', [stream, key, data]); }
 	publishFrom(from, stream, key, data): Observable<any> { return this.call('publishfrom', [from, stream, key, data]); }
 	resume(tasks): Observable<any> { return this.call('resume', [tasks]); }
@@ -342,6 +364,7 @@ export class BChain {
 	validateAddress(address): Observable<any> { return this.call('validateaddress', [address]); }
 	verifychain(checklevel = 3, numblocks = 288): Observable<any> { return this.call('verifychain', [checklevel, numblocks]); }
 	verifyMessage(address, signature, message): Observable<any> { return this.call('verifymessage', [address, signature, message]); }
+	verifytxoutproof(proof): Observable<any> { return this.call('verifytxoutproof', [proof]); }
 	walletLock(): Observable<any> { return this.call('walletlock', []); }
 	walletPassphrase(passphrase, timeout): Observable<any> { return this.call('walletpassphrase', [passphrase, timeout]); }
 	walletPassphraseChange(old_passphrase, new_passphrase): Observable<any> { return this.call('walletpassphrasechange', [old_passphrase, new_passphrase]); }
